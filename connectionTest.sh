@@ -1,8 +1,22 @@
 #!/bin/bash
 
-ping -c 1 1.1.1.1 > /dev/null &> /dev/null && echo "Cloudflare DNS (IP) OK" || echo "Cloudflare DNS (IP) unreachable"
-ping -c 1 one.one.one.one > /dev/null &> /dev/null && echo "Cloudflare DNS OK" || echo "Cloudflare DNS unreachable"
-ping -c 1 google.com > /dev/null &> /dev/null && echo "Google OK" || echo "Google unreachable"
-ping -c 1 discord.com > /dev/null &> /dev/null && echo "Discord OK" || echo "Discord unreachable"
-ping -c 1 mc.hypixel.net > /dev/null &> /dev/null && echo "Hypixel OK" || echo "Hypixel unreachable"
-ping -c 1 hiperdex.com > /dev/null &> /dev/null && echo "Hiperdex OK" || echo "Hiperdex unreachable"
+function conTest() {
+	if [[ -z $1 ]] || [[ -z $2 ]]; then
+		echo "Bad function call"
+	fi
+
+	ping -c 1 $1 > /dev/null &> /dev/null
+
+	if [[ $? -gt 0 ]]; then
+		echo "$2 unreachable"
+	else
+		echo "$2 OK"
+	fi
+}
+
+conTest 1.1.1.1 "Cloudflare DNS (IP)"
+conTest one.one.one.one "Cloudflare DNS"
+conTest google.com "Google"
+conTest discord.com "Discord"
+conTest mc.hypixel.net "Hypixel"
+conTest hiperdex.com "Hiperdex"
