@@ -1,4 +1,5 @@
 #! /bin/bash
+
 if [ -z ${1} ] || [ -z ${2} ]; then
 	echo "Usage: voedl.sh <url> <filename>"
 	exit 1
