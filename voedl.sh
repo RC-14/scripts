@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # Check if two arguments were passed
 if [ -z ${1} ] || [ -z ${2} ]; then
