@@ -3,6 +3,7 @@
 function conTest() {
 	if [[ -z $1 ]] || [[ -z $2 ]]; then
 		echo "Bad function call"
+		exit 1
 	fi
 
 	ping -c 1 $1 > /dev/null &> /dev/null
