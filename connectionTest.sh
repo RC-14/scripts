@@ -18,6 +18,7 @@ function conTest() {
 conTest 1.1.1.1 "Cloudflare DNS (IP)"
 conTest one.one.one.one "Cloudflare DNS"
 conTest google.com "Google"
+conTest github.com "Github"
 conTest discord.com "Discord"
 conTest mc.hypixel.net "Hypixel"
 conTest hiperdex.com "Hiperdex"
