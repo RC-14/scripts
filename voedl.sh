@@ -47,5 +47,5 @@ ENCODED=$(curl -s "${1}" | rg -e 'sources\["mp4"\]\s=\s[^\(]+\(([^\)]+)\);' -r '
 URL=$(node -e "let input = ${ENCODED}; input = input.join('').split('').reverse().join(''); input = atob(input); console.log(input)")
 
 # Download the mp4 video and write it to the specified filename
-curl "${URL}" -o "${FILENAME}.mp4"
+curl "${URL}" -o "${FILENAME}"
 
