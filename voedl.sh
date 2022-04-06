@@ -38,7 +38,7 @@ if [[ -f ${FILENAME} ]]; then
 	done
 fi
 
-echo "Downloading ${1} to ${FILENAME}"
+echo "Downloading \"${1}\" to \"${FILENAME}\""
 
 # Download the html file and use a regex to search for the encoded mp4 source (group 1 is the encoded mp4 source)
 ENCODED=$(curl -s "${1}" | rg -e 'sources\["mp4"\]\s=\s[^\(]+\(([^\)]+)\);' -r '$1')
