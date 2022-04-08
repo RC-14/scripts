@@ -9,8 +9,9 @@ fi
 
 # Check if a second argument is given
 if [[ -z "${2}" ]]; then
-	# If not set FILENAME to default
+	# If not set FILENAME to default and go to the Downloads folder
 	FILENAME="voedl-0.mp4"
+	cd ~/Downloads
 elif [[ "${2}" == *.mp4 ]]; then
 	# If it is a mp4 file set FILENAME to the given filename
 	FILENAME="${2}"
