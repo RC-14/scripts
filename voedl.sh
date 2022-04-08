@@ -1,9 +1,23 @@
 #!/bin/bash
 
-# Check if at least one argument is given
-if [[ -z "${1}" ]]; then
-	# If not print usage and exit else continue
-	echo "Usage: voedl.sh <url> <filename>"
+# Print Usage
+function usage() {
+	echo "Usage: voedl.sh <url> [<filename>]"
+}
+
+# Print usage if first argument is --help
+if [ "${1}" == "--help" ]; then
+	usage
+	exit 0
+fi
+
+# Check if first argument is a valid VOE.sx URL
+if [[ ${1} =~ ^https?://(www\.)?voe\.sx/.+$ ]]; then
+	# Write first argument to variable
+	URL=${1}
+else
+	# Print usage and exit
+	usage
 	exit 1
 fi
 
@@ -39,14 +53,19 @@ if [[ -f ${FILENAME} ]]; then
 	done
 fi
 
-echo "Downloading \"${1}\" to \"${FILENAME}\""
+# Print where the file will be saved
+if [[ -z "${2}" ]]; then
+	echo "Downloading \"${URL}\" to \"~/Downloads/${FILENAME}\""
+else
+	echo "Downloading \"${URL}\" to \"${FILENAME}\""
+fi
 
 # Download the html file and use a regex to search for the encoded mp4 source (group 1 is the encoded mp4 source)
-ENCODED=$(curl -s "${1}" | rg -e 'sources\["mp4"\]\s=\s[^\(]+\(([^\)]+)\);' -r '$1')
+ENCODED=$(curl -s "${URL}" | rg -e 'sources\["mp4"\]\s=\s[^\(]+\(([^\)]+)\);' -r '$1')
 
 # Decode the mp4 source with node (console.log == return in case you don't know how bash works)
-URL=$(node -e "let input = ${ENCODED}; input = input.join('').split('').reverse().join(''); input = atob(input); console.log(input)")
+SOURCE=$(node -e "let input = ${ENCODED}; input = input.join('').split('').reverse().join(''); input = atob(input); console.log(input)")
 
 # Download the mp4 video and write it to the specified filename
-curl "${URL}" -o "${FILENAME}"
+curl "${SOURCE}" -o "${FILENAME}"
 
