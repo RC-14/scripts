@@ -68,4 +68,3 @@ SOURCE=$(node -e "let input = ${ENCODED}; input = input.join('').split('').rever
 
 # Download the mp4 video and write it to the specified filename
 curl "${SOURCE}" -o "${FILENAME}"
-
