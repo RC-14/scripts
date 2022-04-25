@@ -15,7 +15,7 @@ if [[ $@ != *"--no-parent"* ]]; then
 fi
 
 SELECTED=$(\
-	# Offer ".." and all subdirectories of the working directory up to a depth of 3
+	# Offer the contents of EXTRA and all subdirectories of the working directory up to a depth of 3
 	printf "${EXTRA}$(find . -mindepth 1 -maxdepth 3 -type d)" | \
 	# Filter out all .git and node_modules directories and their subdirectories
 	rg -ve ".*(\.git|node_modules).*" | \
