@@ -1,0 +1,45 @@
+#!/bin/bash
+# Select a subdirectory, the parent directory or $HOME
+# with fzf and print the selected directory.
+
+EXTRA=""
+
+# Add $HOME to EXTRA if --no-home is not set
+if [[ $@ != *"--no-home"* ]]; then
+	EXTRA="${EXTRA}\$HOME\n"
+fi
+
+# Add .. to EXTRA if --no-parent is not set
+if [[ $@ != *"--no-parent"* ]]; then
+	EXTRA="${EXTRA}..\n"
+fi
+
+SELECTED=$(\
+	# Offer ".." and all subdirectories of the working directory up to a depth of 3
+	printf "${EXTRA}$(find . -mindepth 1 -maxdepth 3 -type d)" | \
+	# Filter out all .git and node_modules directories and their subdirectories
+	rg -ve ".*(\.git|node_modules).*" | \
+	# Select one with fzf
+	fzf\
+)
+
+# exit if nothing was selected
+if [[ -z ${SELECTED} ]]; then
+	exit 0
+fi
+
+# Check if SELECTED is ~ or equals to $HOME
+if [[ ${SELECTED} == "\$HOME" ]]; then
+	# If so, set SELECTED_DIR to $HOME
+	SELECTED_DIR="${HOME}"
+# Check if SELECTED is ..
+elif [[ ${SELECTED} == ".." ]]; then
+	# If so, set SELECTED_DIR to the parent directory of the current directory
+	SELECTED_DIR=$(dirname $(pwd -P))
+else
+	# Else set SELECTED_DIR to the selected directory
+	SELECTED_DIR="$(pwd)/${SELECTED}"
+fi
+
+# Print the selected directory
+echo ${SELECTED_DIR}
