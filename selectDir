@@ -9,6 +9,11 @@ if [[ $@ != *"--no-home"* ]]; then
 	EXTRA="${EXTRA}\$HOME\n"
 fi
 
+# Add . to EXTRA if --no-current-dir is not set
+if [[ $@ != *"--no-current-dir"* ]]; then
+	EXTRA="${EXTRA}.\n"
+fi
+
 # Add .. to EXTRA if --no-parent is not set
 if [[ $@ != *"--no-parent"* ]]; then
 	EXTRA="${EXTRA}..\n"
