@@ -19,7 +19,7 @@ SELECTED=$(\
 	printf "${EXTRA}$(find . -mindepth 1 -maxdepth 3 -type d)" | \
 	# Filter out all .git and node_modules directories and their subdirectories
 	rg -ve ".*(\.git|node_modules).*" | \
-	# Select one with fzf
+	# Select one with fzf (the result will be written into SELECTED)
 	fzf\
 )
 
