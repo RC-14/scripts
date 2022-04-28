@@ -6,7 +6,7 @@ function conTest() {
 		exit 1
 	fi
 
-	ping -c 1 $1 > /dev/null &> /dev/null
+	ping -c 1 -W 1 $1 > /dev/null &> /dev/null
 
 	if [[ $? -gt 0 ]]; then
 		echo "$2 unreachable"
