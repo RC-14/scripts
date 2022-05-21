@@ -16,7 +16,7 @@ fi
 
 SELECTED=$(\
 	# Offer the contents of EXTRA and all subdirectories of the working directory up to a depth of 3
-	printf "${EXTRA}$(find . -mindepth 1 -maxdepth 3 -type d)" | \
+	printf "${EXTRA}$(find . -mindepth 1 -maxdepth 3 -type d 2>/dev/null)" | \
 	# Filter out all .git and node_modules directories and their subdirectories
 	rg -ve ".*(\.git|node_modules).*" | \
 	# Select one with fzf (the result will be written into SELECTED)
