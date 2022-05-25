@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Source: https://github.com/skontar/Utility/blob/master/scripts/start-apps
 
 for win in $(wmctrl -l | awk -F' ' '{print $1}'); do

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Select a subdirectory, the parent directory or $HOME
 # with fzf and print the selected directory.
 

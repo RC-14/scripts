@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function conTest() {
 	if [[ -z $1 ]] || [[ -z $2 ]]; then
