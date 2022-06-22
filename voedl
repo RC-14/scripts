@@ -34,15 +34,9 @@ else
 	FILENAME="${2}.mp4"
 fi
 
-# Check if the file already exists
-if [[ -f ${FILENAME} ]]; then
-	# If it does print a warning and exit if the second argument is set
-	if [[ -n "${2}" ]]; then
-		echo "File ${FILENAME} already exists"
-		exit 1
-	fi
-
-	# If the second argument is not set increment the number in the filename until it is unique
+# Check if the file already exists and if the second argument is not set
+if [[ -f ${FILENAME} ]] && [[ -z "${2}" ]]; then
+	# If it does increment the number in the filename until it is unique
 	while [[ -f ${FILENAME} ]]; do
 		# Remove .mp4 extension because it contains a number
 		FILENAME=${FILENAME%.mp4}
@@ -67,4 +61,4 @@ ENCODED=$(curl -s "${URL}" | rg -e 'sources\["mp4"\]\s=\s[^\(]+\(([^\)]+)\);' -r
 SOURCE=$(node -e "let input = ${ENCODED}; input = input.join('').split('').reverse().join(''); input = atob(input); console.log(input)")
 
 # Download the mp4 video and write it to the specified filename
-curl "${SOURCE}" -o "${FILENAME}"
+curl "${SOURCE}" -o "${FILENAME}" -C -
