@@ -11,15 +11,8 @@ if [ "${1}" == "--help" ]; then
 	exit 0
 fi
 
-# Check if first argument is a valid VOE.sx URL
-if [[ ${1} =~ ^https?://(www\.)?.*voe.+$ ]]; then
-	# Write first argument to variable
-	URL=${1}
-else
-	# Print usage and exit
-	usage
-	exit 1
-fi
+# Write first argument to the URL variable
+URL=${1}
 
 # Check if a second argument is given
 if [[ -z "${2}" ]]; then
