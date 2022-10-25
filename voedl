@@ -48,10 +48,9 @@ else
 fi
 
 # Download the html file and use a regex to search for the encoded mp4 source (group 1 is the encoded mp4 source)
-ENCODED=$(curl -s "${URL}" | rg -e 'sources\["mp4"\]\s=\s[^\(]+\(([^\)]+)\);' -r '$1')
+SOURCE=$(curl -s "${URL}" | rg -e "'mp4':\s'([^']+)'," -r '$1')
 
-# Decode the mp4 source with node (console.log == return in case you don't know how bash works)
-SOURCE=$(node -e "let input = ${ENCODED}; input = input.join('').split('').reverse().join(''); input = atob(input); console.log(input)")
+# Remove leading and trailing whitespace
+SOURCE=$(echo ${SOURCE})
 
-# Download the mp4 video and write it to the specified filename
 curl "${SOURCE}" -o "${FILENAME}" -C -
