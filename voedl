@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 
+SCRIPTNAME=$(basename "${0}")
+
 # Print Usage
 function usage() {
-	echo "Usage: voedl.sh <url> [<filename>]"
+	echo "Usage: ${SCRIPTNAME} <url> [<filename>]"
 }
 
-# Print usage if first argument is --help
+# Print usage if first argument is --help or if it's empty
 if [ "${1}" == "--help" ]; then
 	usage
 	exit 0
+elif [[ -z "${1}" ]]; then
+	usage
+	exit 1
 fi
 
 # Write first argument to the URL variable
@@ -17,7 +22,7 @@ URL=${1}
 # Check if a second argument is given
 if [[ -z "${2}" ]]; then
 	# If not set FILENAME to default and go to the Downloads folder
-	FILENAME="voedl-0.mp4"
+	FILENAME="videodl-0.mp4"
 	cd ~/Downloads
 elif [[ "${2}" == *.mp4 ]]; then
 	# If it is a mp4 file set FILENAME to the given filename
@@ -36,7 +41,7 @@ if [[ -f ${FILENAME} ]] && [[ -z "${2}" ]]; then
 		# Get the number from the filename
 		FILENAME=${FILENAME//[!0-9]/}
 		# Create a new filename with the incremented number
-		FILENAME="voedl-$((${FILENAME}+1)).mp4"
+		FILENAME="videodl-$((${FILENAME}+1)).mp4"
 	done
 fi
 
@@ -48,9 +53,6 @@ else
 fi
 
 # Download the html file and use a regex to search for the encoded mp4 source (group 1 is the encoded mp4 source)
-SOURCE=$(curl -s "${URL}" | rg -e "'mp4':\s'([^']+)'," -r '$1')
-
-# Remove leading and trailing whitespace
-SOURCE=$(echo ${SOURCE})
+SOURCE=$(curl -Ls "${URL}" | rg -oe "'mp4':\s'([^']+)'," -r '$1')
 
 curl "${SOURCE}" -o "${FILENAME}" -C -
