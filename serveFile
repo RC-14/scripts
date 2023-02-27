@@ -1,2 +1,2 @@
 #!/bin/sh
-{ echo -ne "HTTP/1.0 200 OK\r\nContent-Disposition: attachment; filename="$(basename $1)"\r\nContent-Length: $(wc -c <"$1")\r\n\r\n"; cat "$1"; } | sudo nc -l -p 80
+{ echo -ne "HTTP/1.0 200 OK\r\nContent-Disposition: attachment; filename="$(basename "$1")"\r\nContent-Length: $(wc -c <"$1")\r\n\r\n"; cat "$1"; } | sudo nc -l -p 80
