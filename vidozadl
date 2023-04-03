@@ -53,6 +53,6 @@ else
 fi
 
 # Download the html file and use a regex to search for the encoded mp4 source (group 1 is the encoded mp4 source)
-SOURCE=$(curl -Ls "${URL}" | rg -oe 'src="(https://cache[^"]+\.mp4)"' -r '$1')
+SOURCE=$(curl -Ls "${URL}" | rg -oe 'src="(https://[a-zA-Z0-9]+\.vidoza.net/[a-zA-Z0-9]+/v\.mp4)"' -r '$1')
 
 curl "${SOURCE}" -o "${FILENAME}" -C -
