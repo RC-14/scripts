@@ -2,6 +2,8 @@
 
 SCRIPTNAME=$(basename "${0}")
 
+LOGICAL_CORES=$([ $(uname) = 'Darwin' ] && sysctl -n hw.logicalcpu_max || lscpu -p | egrep -v '^#' | wc -l)
+
 # Print Usage
 function usage() {
 	echo "Usage: ${SCRIPTNAME} <url> [<filename>]"
@@ -55,4 +57,4 @@ fi
 # Download the html file and use a regex to search for the encoded mp4 source (group 1 is the encoded mp4 source)
 SOURCE=$(curl -Ls "${URL}" | rg -oe 'src="(https://[a-zA-Z0-9]+\.vidoza.net/[a-zA-Z0-9]+/v\.mp4)"' -r '$1')
 
-curl "${SOURCE}" -o "${FILENAME}" -C -
+yt-dlp "${SOURCE}" -o "${FILENAME}" --continue --no-part --concurrent-fragments ${LOGICAL_CORES}

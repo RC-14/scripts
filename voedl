@@ -2,9 +2,7 @@
 
 SCRIPTNAME=$(basename "${0}")
 
-LOGICAL_CORES=$([ $(uname) = 'Darwin' ] && 
-                       sysctl -n hw.logicalcpu_max || 
-                       lscpu -p | egrep -v '^#' | wc -l)
+LOGICAL_CORES=$([ $(uname) = 'Darwin' ] && sysctl -n hw.logicalcpu_max || lscpu -p | egrep -v '^#' | wc -l)
 
 # Print Usage
 function usage() {
