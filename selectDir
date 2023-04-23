@@ -21,7 +21,7 @@ OPTIONS="${EXTRA}$(find . -mindepth 1 -maxdepth 3 -type d 2>/dev/null)"
 OPTIONS=$(print ${OPTIONS} | rg -ve ".*(\.git|node_modules).*")
 
 # Select one with fzf
-SELECTED=$(print ${OPTIONS} | fzf)
+SELECTED=$(print ${OPTIONS} | fzf --scheme=path --tiebreak=begin,length)
 
 # Exit if nothing was selected
 if [[ -z ${SELECTED} ]]; then
