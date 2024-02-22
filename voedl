@@ -55,6 +55,6 @@ else
 fi
 
 # Download the html file and use a regex to search for the hls source (group 1 is the hls source)
-SOURCE=$(curl -Ls "${URL}" | rg -oe "'hls':\s'([^']+)'," -r '$1')
+SOURCE=$(curl -Ls "${URL}" | rg -oe "let [a-zA-Z0-9]+ = '([^']+)';" -r '$1' | base64 --decode | rg -oe '"file":"([^"]+)"' -r '$1' | sed -r 's/\\\//\//g')
 
 yt-dlp "${SOURCE}" -o "${FILENAME}" --continue --no-part --concurrent-fragments ${LOGICAL_CORES}
