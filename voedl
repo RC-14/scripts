@@ -55,10 +55,6 @@ else
 fi
 
 # Download the html file and use a regex to search for the hls source (group 1 is the hls source)
-REVERSED_JSON=$(curl -Ls "${URL}" | rg -oe "let [a-zA-Z0-9]+ = '([^']+)';" -r '$1' | base64 --decode)
-for ((i=${#REVERSED_JSON}-1;i>=0;i--)); do
-	JSON="${JSON}${REVERSED_JSON:${i}:1}"
-done
-SOURCE=$(echo ${JSON} | rg -oe '"file":"([^"]+)"' -r '$1' | sed -r 's/\\\//\//g')
+SOURCE=$(curl -Ls "${URL}" | rg -oe "'hls': '([^']+)'" -r '$1')
 
 yt-dlp "${SOURCE}" -o "${FILENAME}" --continue --no-part --concurrent-fragments ${LOGICAL_CORES}
