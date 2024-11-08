@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-# Options that may be configured
-JAVA="/path/to/java"
-SERVER_JAR="server.jar"
-RAM="8G"
-
-# DO NOT EDIT HERE
-eval ${JAVA} -Xms${RAM} -Xmx${RAM} -jar "${SERVER_JAR}"
