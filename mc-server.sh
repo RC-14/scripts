@@ -69,7 +69,7 @@ case "$1" in
     startServer;;
   stop)
     stopServer;;
-  console)
+  console|con)
     attachToTmuxPane;;
   *)
     printStatus
