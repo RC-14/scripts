@@ -22,6 +22,11 @@ cd "$(dirname "$0")"
 SCRIPT_NAME="$(basename "$0")"
 TMUX_PANE="${TMUX_SESSION}:${TMUX_WINDOW}.0"
 
+# Fix kitty TERM env var for tmux
+if [[ "${TERM}" = "xterm-kitty" ]]; then
+  TERM="xterm"
+fi
+
 # Fix tmux if started outside a shell (e.g. by systemd)
 if [[ -n ${INVOCATION_ID+x} ]]; then
   TMUX="${TMUX} -C"
