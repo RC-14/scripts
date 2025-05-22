@@ -1,24 +1,13 @@
 #!/usr/bin/env zsh
-# Select a subdirectory, the parent directory or $HOME
-# with fzf and print the selected directory.
+# Select a subdirectory, the parent directory or $HOME with fzf and print the absolute path to the selected directory.
 
-EXTRA=""
-
-# Only add $HOME to EXTRA if --no-home is not set
-if [[ $@ != *"--no-home"* ]]; then
-	EXTRA="${EXTRA}\$HOME\n"
-fi
-
-# Only add .. to EXTRA if --no-parent is not set
-if [[ $@ != *"--no-parent"* ]]; then
-	EXTRA="${EXTRA}..\n"
-fi
+EXTRA="\$HOME\n..\n"
 
 # Offer the contents of EXTRA and all subdirectories of the working directory up to a depth of 3
 OPTIONS="${EXTRA}$(find . -mindepth 1 -maxdepth 3 -type d 2>/dev/null)"
 
-# Filter out all .git and node_modules directories and their subdirectories
-OPTIONS=$(print ${OPTIONS} | rg -ve ".*(\.git|node_modules).*")
+# Filter out all .git, node_modules, etc. directories and their subdirectories
+OPTIONS=$(print ${OPTIONS} | rg -ve "(.*\/)?(\.git|node_modules|.+\.dSYM)(\/.*)?")
 
 # Select one with fzf
 SELECTED=$(print ${OPTIONS} | fzf --scheme=path --tiebreak=begin,length)
@@ -28,18 +17,12 @@ if [[ -z ${SELECTED} ]]; then
 	exit 0
 fi
 
-# Check if SELECTED equals to $HOME
-if [[ ${SELECTED} = "\$HOME" ]]; then
-	# If so, set SELECTED_DIR to $HOME
+if [[ ${SELECTED} = '$HOME' ]]; then
 	SELECTED_DIR="${HOME}"
-# Check if SELECTED equals ..
-elif [[ ${SELECTED} = ".." ]]; then
-	# If so, set SELECTED_DIR to the parent directory of the current directory
+elif [[ ${SELECTED} = '..' ]]; then
 	SELECTED_DIR=$(dirname $(pwd -P))
 else
-	# Else set SELECTED_DIR to the selected directory
 	SELECTED_DIR="$(pwd)/${SELECTED}"
 fi
 
-# Print the selected directory
 echo ${SELECTED_DIR}
