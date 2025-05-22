@@ -1,2 +1,0 @@
-#!/usr/bin/env zsh
-eval $(rofi -dmenu -input "${HOME}/.gamelauncher")

@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-# Change the MAC address to $1
-
-sudo ifconfig en0 ether ${1}
-
