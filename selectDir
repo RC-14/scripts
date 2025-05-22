@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 # Select a subdirectory, the parent directory or $HOME with fzf and print the absolute path to the selected directory.
 
 EXTRA="\$HOME\n..\n"
@@ -7,22 +7,22 @@ EXTRA="\$HOME\n..\n"
 OPTIONS="${EXTRA}$(find . -mindepth 1 -maxdepth 3 -type d 2>/dev/null)"
 
 # Filter out all .git, node_modules, etc. directories and their subdirectories
-OPTIONS=$(print ${OPTIONS} | rg -ve "(.*\/)?(\.git|node_modules|.+\.dSYM)(\/.*)?")
+OPTIONS=$(echo -e "${OPTIONS}" | rg -ve "(.*\/)?(\.git|node_modules|.+\.dSYM)(\/.*)?")
 
 # Select one with fzf
-SELECTED=$(print ${OPTIONS} | fzf --scheme=path --tiebreak=begin,length)
+SELECTED=$(echo "${OPTIONS}" | fzf --scheme=path --tiebreak=begin,length)
 
 # Exit if nothing was selected
 if [[ -z ${SELECTED} ]]; then
 	exit 0
 fi
 
-if [[ ${SELECTED} = '$HOME' ]]; then
+if [[ ${SELECTED} = "\$HOME" ]]; then
 	SELECTED_DIR="${HOME}"
-elif [[ ${SELECTED} = '..' ]]; then
-	SELECTED_DIR=$(dirname $(pwd -P))
+elif [[ ${SELECTED} = ".." ]]; then
+	SELECTED_DIR=$(dirname "$(pwd -P)")
 else
 	SELECTED_DIR="$(pwd)/${SELECTED}"
 fi
 
-echo ${SELECTED_DIR}
+echo "${SELECTED_DIR}"

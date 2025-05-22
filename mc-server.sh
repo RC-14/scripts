@@ -50,7 +50,7 @@ function startServer() {
   ## Start the server using tmux
   # tmux is used to make the server console available even if run as a systemd service
   # and to avoid closing the server when the ssh session ends.
-  eval ${TMUX} start-server \\\; new-session -s "${TMUX_SESSION}" -n "${TMUX_WINDOW}" "${JAVA} -Xms${RAM} -Xmx${RAM} -jar '${SERVER_JAR}' nogui"
+  eval "${TMUX}" start-server \\\; new-session -s "${TMUX_SESSION}" -n "${TMUX_WINDOW}" "${JAVA} -Xms${RAM} -Xmx${RAM} -jar '${SERVER_JAR}' nogui"
 }
 
 function stopServer {
