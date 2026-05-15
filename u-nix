@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+    echo "Usage: $0 <nix-args>..."
+    echo ""
+    echo "A wrapper for the nix command to allow unfree packages"
+    echo "Allows unfree packages and provides a clean environment."
+    echo ""
+    echo "Examples:"
+    echo "  $0 run nixpkgs#hello"
+    echo "  $0 build nixpkgs#some-package"
+    echo "  $0 develop"
+    exit 1
+fi
+
+subcommand="$1"
+shift
+
+exec nix shell -s NIXPKGS_ALLOW_UNFREE 1 nixpkgs\#empty --command nix "$subcommand" --impure "$@"

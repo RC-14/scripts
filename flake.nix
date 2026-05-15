@@ -18,6 +18,7 @@
       paths = [
         connectionTest
         selectDir
+        u-nix
       ];
     };
     
@@ -32,6 +33,14 @@
         fzf
         ripgrep
       ];
+    };
+    u-nix = pkgs.writeShellApplication {
+      name = "u-nix";
+      text = removeShabang (builtins.readFile ./u-nix);
+      # Intentionally commented out to make it use the system nix in case the user uses determinate nix.
+      # runtimeInputs = with pkgs; [
+      #   nix
+      # ];
     };
   }; });
 }
